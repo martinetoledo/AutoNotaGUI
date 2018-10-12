@@ -7,34 +7,43 @@ from selenium.common.exceptions import TimeoutException
 from time import sleep
 
 driver = webdriver.Firefox() # Puede cambiarse por Chrome
-# Headless en produccion
+
 
 # Funcion que entra a la pagina de Consulta de Causas
 # toma dos argumentos, CUIT y contrasena del usuario que se quiere ingresar
+logged_in = False
+
+
 def login(user, psw):
+    try:
+        driver.get('http://scw.pjn.gov.ar/scw/home.seam')
+        iniciarsesion = driver.find_element_by_partial_link_text('Iniciar sesi') # Boton de iniciar sesion
+        iniciarsesion.click()
+        assert "Ingresar" in driver.page_source
 
-    driver.get('http://scw.pjn.gov.ar/scw/home.seam')
-    iniciarsesion = driver.find_element_by_partial_link_text('Iniciar sesi') # Boton de iniciar sesion
-    iniciarsesion.click()
-    assert "Ingresar" in driver.page_source
+        # Llena formularios de usuario y contrasena y los envia
 
-    # Llena formularios de usuario y contrasena y los envia
-
-    driver.find_element_by_id("username").send_keys(user)
-    driver.find_element_by_id("password").send_keys(psw)
-    driver.find_element_by_id("password").send_keys(Keys.RETURN)
-    sleep(2)
-    return "Ingreso exitoso"
+        driver.find_element_by_id("username").send_keys(user)
+        driver.find_element_by_id("password").send_keys(psw)
+        driver.find_element_by_id("password").send_keys(Keys.RETURN)
+        sleep(2)
+        logged_in = True
+        return "Ingreso exitoso"
 
 
-def dejarnota():
+    except TimeoutException as e:
+        print(e)
+        print("No pudo conectarse al Sistema de Consulta de Causas - revise su conexion a Internet e intente nuevamente")
 
-    # Llega a los expedientes en despacho
-    driver.find_element_by_link_text()
-    driver.find_elements_by_class_name("btn-filter")[1].click()
-    while "Consulta en proceso" in driver.page_source:
-        sleep(1)
-    exptes = driver.find_elements_by_css_selector('.fa-pencil')
+
+    except Exception as e2:
+        if "CUIT/CUIL o contrase" in driver.page_source:
+            print("CUIT/CUIL o contraseña incorrectos.")
+            print(e2)
+
+
+
+
 
 
 
