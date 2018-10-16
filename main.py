@@ -1,18 +1,15 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.by import By
 from selenium.common.exceptions import TimeoutException
 from time import sleep
+from dejarNota import dejar_nota
+from novedades import get_novedades
 
 driver = webdriver.Firefox() # Puede cambiarse por Chrome
 
 
 # Funcion que entra a la pagina de Consulta de Causas
 # toma dos argumentos, CUIT y contrasena del usuario que se quiere ingresar
-logged_in = False
-
 
 def login(user, psw):
     try:
@@ -27,8 +24,7 @@ def login(user, psw):
         driver.find_element_by_id("password").send_keys(psw)
         driver.find_element_by_id("password").send_keys(Keys.RETURN)
         sleep(2)
-        logged_in = True
-        return "Ingreso exitoso"
+        return True
 
 
     except TimeoutException as e:
