@@ -1,24 +1,21 @@
-from main import logged_in, login, driver
-from selenium.webdriver.support.ui import WebDriverWait
+from main import login, driver
 from time import strftime
-from re import search, IGNORECASE
 
 hoy = strftime("%d/%m/%Y")
 
 
 def get_novedades():
-    file = open("Novedades " + hoy +".txt", 'w+')
+    file = open("C:\\Users\Martin\Documents\test\\Novedades " + hoy +".txt", 'w+')
     driver.find_elements_by_tag_name("select")[2].click()
     driver.find_element_by_xpath('//option[@value="FECHA"]').click()
     driver.find_element_by_xpath('//a[text()="Ordenar"]').click()
-    for i in range(7,22):
-        autos = driver.find_elements_by_xpath("//i[@class='fa eye fa-lg']/preceding::td[3]")
-        if hoy in driver.find_elements_by_tag_name('tr')[i].text:
+    autos = driver.find_elements_by_xpath("//i[@class='fa fa-eye fa-lg']/preceding::td[3]")
+    fechas = driver.find_elements_by_xpath("//i[@class='fa fa-eye fa-lg']/preceding::td[1]")
+    for i in range(0,15):
+        if hoy in fechas[i].text:
             expte = autos[i].text
-            print (expte)
             file.write(expte + "\n")
         else:
             break
 
-
-
+# TODO: Me falta poner el avanzar pag.

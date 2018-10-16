@@ -2,8 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import TimeoutException
 from time import sleep
-from dejarNota import dejar_nota
-from novedades import get_novedades
+
 
 driver = webdriver.Firefox() # Puede cambiarse por Chrome
 
