@@ -18,4 +18,4 @@ def get_novedades():
         else:
             break
 
-# TODO: Me falta poner el avanzar pag.
+# TODO: Me falta poner el avanzar pag. y arreglar problemas con el IO

@@ -3,16 +3,29 @@ from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 from main import login
 
+
 driver = webdriver.Firefox()
 
-def dejar_nota(current_pag=1, user = None, psw = None):
+
+def dejar_nota(current_pag=1, user=None, psw=None, logged_in=False):
+    pagina = str(current_pag)
+
+    if not logged_in:
+        login(user, psw, driver)
+    else:
+        pass
 
     # Llega a los expedientes en despacho)
-    pagina = str(current_pag)
-    if driver.find_element_by_xpath("//input[@value='Quitar filtro dejar nota']") in driver.page_source:
-        pass
-    else:
+    try:
+
+        if driver.find_element_by_xpath("//input[@value='Quitar filtro dejar nota']") in driver.page_source:
+            pass
+        else:
+            driver.find_elements_by_class_name("btn-filter")[1].click()
+    except NoSuchElementException as e:
+        print(e)
         driver.find_elements_by_class_name("btn-filter")[1].click()
+
     while driver.find_element_by_xpath("//*[text()='Consulta en proceso']").is_displayed():
         sleep(0.3)
 
@@ -62,11 +75,10 @@ def dejar_nota(current_pag=1, user = None, psw = None):
             print("Intentando reinicio")
             driver.quit()
             if login():
-                dejar_nota(current_pag)
+                dejar_nota(current_pag, logged_in=False)
             break  # Aca va error handling - raise exception
 
     avanzar_pag(current_pag)
-
 
 def avanzar_pag(current_pag):
     total_pags = len(driver.find_elements_by_xpath("//a[@class='padding-pagination margin-pagination']"))
@@ -83,5 +95,5 @@ def avanzar_pag(current_pag):
         while driver.find_element_by_xpath("//*[text()='Consulta en proceso']").is_displayed():
             sleep(0.1)
 
-        dejar_nota(current_pag)
+        dejar_nota(current_pag, logged_in= True)
 

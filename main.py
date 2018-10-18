@@ -1,16 +1,12 @@
-from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import TimeoutException
 from time import sleep
 
 
-driver = webdriver.Firefox() # Puede cambiarse por Chrome
-
-
 # Funcion que entra a la pagina de Consulta de Causas
 # toma dos argumentos, CUIT y contrasena del usuario que se quiere ingresar
 
-def login(user, psw):
+def login(user, psw, driver):
     try:
         driver.get('http://scw.pjn.gov.ar/scw/home.seam')
         iniciarsesion = driver.find_element_by_partial_link_text('Iniciar sesi') # Boton de iniciar sesion
@@ -35,6 +31,7 @@ def login(user, psw):
         if "CUIT/CUIL o contrase" in driver.page_source:
             print("CUIT/CUIL o contraseña incorrectos.")
             print(e2)
+
 
 
 
