@@ -1,10 +1,18 @@
-from main import login, driver
+from main import login
 from time import strftime
+from selenium import webdriver
 
 hoy = strftime("%d/%m/%Y")
 
+driver = webdriver.Firefox()
 
-def get_novedades():
+def get_novedades(current_pag=1, user=None, psw=None, logged_in=False):
+
+    if not logged_in:
+        login(user,psw,driver)
+    else:
+        pass
+
     file = open("C:\\Users\Martin\Documents\test\\Novedades " + hoy +".txt", 'w+')
     driver.find_elements_by_tag_name("select")[2].click()
     driver.find_element_by_xpath('//option[@value="FECHA"]').click()

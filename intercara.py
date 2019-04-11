@@ -1,5 +1,5 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-from dejarNota import dejar_nota
+import dejarNota
 
 
 class Ui_MainWindow(object):
@@ -64,17 +64,19 @@ class Ui_MainWindow(object):
         self.label_4.setText(_translate("MainWindow", "Desarrollado por Martín Ezequiel Toledo"))
 
     # funcion para el boton de dejar nota
-
     def iniciarProceso(self):
         usuario = str(self.usuarioCuit.text())
         morcilla = str(self.morcillaEdit.text())
-        dejar_nota(user= usuario, psw= morcilla)
+        dejarNota.dejar_nota(user= usuario, psw= morcilla)
+        return True
 
     #funcion para el boton Detener
-
     def detenerProceso(self):
         # placeholder, invocar funcion de detener
         print ("detener")
+
+    def agregar_valor(self,msj):
+        self.cuadroProg.addItem(msj)
 
 
 if __name__ == "__main__":
@@ -85,3 +87,7 @@ if __name__ == "__main__":
     ui.setupUi(MainWindow)
     MainWindow.show()
     sys.exit(app.exec_())
+
+
+
+
